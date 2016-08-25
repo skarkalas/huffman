@@ -1,5 +1,3 @@
-import unittest
-
 class Huffman:
 	"""
 	This is the definition of a class of objects that represent the Huffman
@@ -14,9 +12,10 @@ class Huffman:
 			"""
 			This function returns a sorted list of character frequencies in the input message.
 			"""		
-			f = {}
+			from collections import defaultdict
+			f = defaultdict(int)
 			for c in data:
-				f[c] = 1 if f.get(c) == None else f[c] + 1
+				f[c] += 1
 			return sorted([(value,key) for (key,value) in f.items()])
 		def buildTree(f):
 			"""
@@ -85,6 +84,8 @@ class Huffman:
 				stop = True
 			data += token
 		return data
+
+import unittest
 
 class TestUM(unittest.TestCase):
  
