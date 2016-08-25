@@ -3,38 +3,39 @@ class Huffman:
 	This is the definition of a class of objects that represent the Huffman
 	data compression algorithm
 	"""
-	def getTree(self, data):
-		"""
-		This function constructs (and returns) a tree structure that holds individual characters of the input
-		message along with their frequencies. This tree can then be used for encoding and decoding the message.
-		"""		
-		def getFrequencies(data):
-			"""
-			This function returns a sorted list of character frequencies in the input message.
-			"""		
-			from collections import defaultdict
-			f = defaultdict(int)
-			for c in data:
-				f[c] += 1
-			return sorted([(value,key) for (key,value) in f.items()])
-		def buildTree(f):
-			"""
-			This function constructs the tree that holds individual characters and their frequencies
-			in the form of a list
-			"""		
-			if len(f) == 1:
-				return f
-			f = sorted([(f[0][0] + f[1][0], '*', f[0], f[1])] + f[2:])
-			return buildTree(f)
-		#traverse the text and compute the frequency of occurence for each character
-		f = getFrequencies(data)
-		#use the frequencies to create the tree and return it 
-		return buildTree(f)
 
 	def encode(self, data):
 		"""
 		This function receives plain text and returns the same data encoded (compressed)
 		"""		
+		def getTree():
+			"""
+			This function constructs (and returns) a tree structure that holds individual characters of the input
+			message along with their frequencies. This tree can then be used for encoding and decoding the message.
+			"""		
+			def getFrequencies():
+				"""
+				This function returns a sorted list of character frequencies in the input message.
+				"""		
+				from collections import defaultdict
+				f = defaultdict(int)
+				for c in data:
+					f[c] += 1
+				return sorted([(value,key) for (key,value) in f.items()])
+			def buildTree(f):
+				"""
+				This function constructs the tree that holds individual characters and their frequencies
+				in the form of a list
+				"""		
+				if len(f) == 1:
+					return f
+				f = sorted([(f[0][0] + f[1][0], '*', f[0], f[1])] + f[2:])
+				return buildTree(f)
+			#traverse the text and compute the frequency of occurence for each character
+			f = getFrequencies()
+			#use the frequencies to create the tree and return it 
+			return buildTree(f)
+
 		def getNext(t, c):
 			"""
 			This function traverses the tree and gradually (recursively) develops the code
@@ -52,7 +53,7 @@ class Huffman:
 				return ""
 			return ""
 		#create a tree for the particular message given as a parameter and store it in the object
-		self.tree = self.getTree(data)
+		self.tree = getTree()
 		#utilise the tree to encode the message character by character and return the code
 		code = ""
 		for c in data:
